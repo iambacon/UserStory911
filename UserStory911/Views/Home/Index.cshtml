@@ -1,0 +1,129 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>User Story 911</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/knockout")
+    @Scripts.Render("~/bundles/app")
+</head>
+<body>
+    <div class="container body-content">
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <p class="navbar-brand">User Story 911</p>
+                </div>
+            </div>
+        </div>
+        <h1>Show reel page</h1>
+
+        <form action="/api/showreel" method="post" class="js-create-reel-form" role="form">
+            <fieldset>
+                <legend>Create show reel</legend>
+                <div class="form-group col-xs-12 col-sm-12 col-md-12">
+                    <label for="showReelName">Show reel name</label>
+                    <input type="text" id="showReelName" class="form-control" placeholder="Enter name" data-bind="value: showReelName" />
+                </div>
+                <div class="form-group col-xs-12 col-sm-12 col-md-12">
+                    <label for="standard">Video standard</label>
+                    <select id="standard" class="form-control" data-bind="options: videoStandards, value: showReelStandard"></select>
+                </div>
+                <div class="form-group col-xs-12 col-sm-12 col-md-12">
+                    <label for="definition">Video definition</label>
+                    <select id="definition" class="form-control" data-bind="options: videoDefinitions, value: showReelDefinition"></select>
+                </div>
+                <div class="form-group col-xs-12 col-sm-12 col-md-12">
+                    <button class="btn btn-primary" type="submit" data-bind="click: createShowReel">Create</button>
+                </div>
+            </fieldset>
+            <p class="js-create-reel-error field-validation-error" data-bind="text: createReelError"></p>
+        </form>
+        <form action="/api/clip" method="post" class="form-clip">
+            <fieldset>
+                <legend>Add new clip</legend>
+                <div class="form-group col-xs-12 col-sm-6 col-md-6">
+                    <label for="txtClipName">Name</label>
+                    <input id="txtClipName" class="form-control" type="text" required placeholder="Enter name" data-bind="value: clipName" />
+                </div>
+                <div class="form-group col-xs-12 col-sm-6 col-md-6">
+                    <label for="txtDescription">Description</label>
+                    <textarea id="txtDescription" rows="3" class="form-control" required placeholder="Enter description" data-bind="value: clipDescription"></textarea>
+                </div>
+                <div class="form-group col-xs-12 col-sm-6 col-md-6">
+                    <label for="standard">Video standard</label>
+                    <select id="standard" class="form-control" data-bind="options: videoStandards, value: showReelStandard"></select>
+                </div>
+                <div class="form-group col-xs-12 col-sm-6 col-md-6">
+                    <label for="definition">Video definition</label>
+                    <select id="definition" class="form-control" data-bind="options: videoDefinitions, value: showReelDefinition"></select>
+                </div>
+                <div class="form-group col-xs-12 col-sm-6 col-md-6">
+                    <label for="tcStart">Start timecode</label>
+                    <input type="text" id="tcStart" class="form-control" required placeholder="HH:MM:ss:ff" data-bind="value: clipStartTime" />
+                </div>
+                <div class="form-group col-xs-12 col-sm-6 col-md-6">
+                    <label for="tcEnd">End timecode</label>
+                    <input type="text" id="tcEnd" class="form-control" required placeholder="HH:MM:ss:ff" data-bind="value: clipEndTime" />
+                </div>
+                <div class="form-group col-xs-12 col-sm-12 col-md-12">
+                    <button class="btn btn-primary" type="submit" data-bind="click: CreateVideoClip">Create</button>
+                </div>
+            </fieldset>
+            <p class="field-validation-error" data-bind="text: videoClipAddError"></p>
+        </form>
+        <section>
+            <h1>Saved data</h1>
+            <h2>Show reels</h2>
+
+            <dl class="dl-horizontal">
+                <dt>Name</dt>
+                <dd data-bind="text: showReel().name"></dd>
+                <dt>Video Standard</dt>
+                <dd data-bind="text: showReel().videoStandard"></dd>
+                <dt>Video Definition</dt>
+                <dd data-bind="text: showReel().videoDefinition"></dd>
+                <dt>Total Duration</dt>
+                <dd data-bind="text: totalDuration"></dd>
+            </dl>
+
+            <h2>Video clips</h2>
+
+            <table class="table table-striped table-responsive">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Video Standard</th>
+                        <th>Video definition</th>
+                        <th>Start timecode</th>
+                        <th>End timecode</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: videoClips">
+                    <tr>
+                        <td><span data-bind="text: name"></span></td>
+                        <td><span data-bind="text: description"></span></td>
+                        <td><span data-bind="text: videoStandard"></span></td>
+                        <td><span data-bind="text: videoDefinition"></span></td>
+                        <td><span data-bind="text: startTimeCode"></span></td>
+                        <td><span data-bind="text: endTimeCode"></span></td>
+                        <td><button data-bind="click: $parent.removeVideoClip">remove</button></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="field-validation-error" data-bind="text: videoClipRemoveError"></p>
+        </section>
+        <footer></footer>
+    </div>
+</body>
+</html>
